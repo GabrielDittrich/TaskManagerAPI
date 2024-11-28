@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Categoria } from "../models/Categoria";
 import axios from "axios";
-import { Tarefa } from "../models/Tarefa";
-import React from "react";
+import { Tarefa } from "../models/Tarefas";
+import { useNavigate } from "react-router-dom";
 
 function CadastrarTarefa() {
     const navigate = useNavigate();

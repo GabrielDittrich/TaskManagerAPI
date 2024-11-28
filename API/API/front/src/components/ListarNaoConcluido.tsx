@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Tarefa } from "../models/Tarefa";
-import React from "react";
+import { Tarefa } from "../models/Tarefas";
 
 function ListarNaoConcluidos() {
   

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
-import CadastrarTarefa from './components/CadastrarTarefa';
 import ListarTarefa from './components/ListarTarefa';
 import ListarConcluido from './components/ListarConcluido';
-import ListarNaoConcluidos from './components/ListarNaoConcluidos';
+import ListarNaoConcluidos from './components/ListarNaoConcluido';
+import CadastrarTarefa from './components/CadastrarTarefa';
 
 function App() {
-    return (
-      <div>
+  return (
+    <div>
         <BrowserRouter>
           <nav>
             <ul>
@@ -53,7 +53,7 @@ function App() {
 
         </BrowserRouter>
       </div>
-    );
-  }
-  
+  );
+}
+
 export default App;

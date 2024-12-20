@@ -16,9 +16,6 @@ function App() {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/pages/tarefa/listar">Listar Tarefas</Link>
-              </li>
-              <li>
                 <Link to="/pages/tarefa/cadastrar">Cadastrar Tarefas</Link>
               </li>
               <li>
@@ -33,10 +30,6 @@ function App() {
           </nav>
           <Routes>
             <Route path="/" element={<ListarTarefa />} />
-            <Route
-              path="/pages/tarefa/listar"
-              element={<ListarTarefa />}
-            />
              <Route
               path="pages/tarefa/concluidas"
               element={<ListarConcluido />}

@@ -35,11 +35,11 @@ function ListarConcluido() {
         <tbody>
           {tarefas.map((tarefa) => (
             <tr key={tarefa.tarefaId}>
-              <td>{tarefa.tarefaId}</td>
-              <td>{tarefa.titulo}</td>
-              <td>{tarefa.descricao}</td>
-              <td>{tarefa.status}</td>
-              <td>{tarefa.criadoEm}</td>
+              <td data-label="Id">{tarefa.tarefaId}</td>
+              <td data-label="Titulo">{tarefa.titulo}</td>
+              <td data-label="Descricao">{tarefa.descricao}</td>
+              <td data-label="Status">{tarefa.status}</td>
+              <td  data-label="CriadoEm">{tarefa.criadoEm}</td>
             </tr>
           ))}
         </tbody>

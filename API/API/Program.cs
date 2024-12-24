@@ -32,7 +32,7 @@ app.MapPost("/api/categoria/cadastrar", ([FromServices] AppDataContext ctx, [Fro
 {
     ctx.Categorias.Add(categoria);
     ctx.SaveChanges();
-    return Results.Created("", categoria);
+    return Results.Created("/api/categoria/listar", categoria);
 });
 
 //ENDPOINTS DE TAREFA
@@ -57,7 +57,7 @@ app.MapPost("/api/tarefas/cadastrar", ([FromServices] AppDataContext ctx, [FromB
     tarefa.Categoria = categoria;
     ctx.Tarefas.Add(tarefa);
     ctx.SaveChanges();
-    return Results.Created("", tarefa);
+    return Results.Created("/api/tarefas/listar", tarefa);
 });
 
 //PUT: http://localhost:5273/tarefas/alterar/{id}
@@ -81,6 +81,22 @@ app.MapPut("/api/tarefas/alterar/{id}", ([FromServices] AppDataContext ctx, [Fro
     ctx.SaveChanges();
     return Results.Ok(ctx.Tarefas.ToList());
 });
+
+// Mude o nome do endpoint para "excluir" no backend
+app.MapDelete("/api/tarefas/excluir/{id}", ([FromRoute] int id, [FromServices] AppDataContext ctx) =>
+{
+    Tarefa? tarefa = ctx.Tarefas.Find(id);
+
+    if (tarefa is null)
+    {
+        return Results.NotFound();
+    }
+
+    ctx.Tarefas.Remove(tarefa);
+    ctx.SaveChanges();
+    return Results.Ok(tarefa);
+});
+
 
 //GET: http://localhost:5273/tarefas/naoconcluidas
 app.MapGet("/api/tarefas/naoconcluidas", ([FromServices] AppDataContext ctx) =>

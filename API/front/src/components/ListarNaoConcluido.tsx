@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tarefa } from "../models/Tarefas";
+import axios from "axios";
 
 function ListarNaoConcluidos() {
   
@@ -19,6 +20,14 @@ function ListarNaoConcluidos() {
       });
   }
 
+  function alterar(id: string) {
+    axios
+      .put(`http://localhost:5000/api/tarefas/alterar/${id}`)
+      .then((resposta) => {
+        setTarefas(resposta.data);
+      });
+  }
+  
   return (
     <div className="container">
       <h1>Lista de Tarefas</h1>
@@ -30,6 +39,7 @@ function ListarNaoConcluidos() {
             <th>Descricao</th>
             <th>Status</th>
             <th>Criado Em</th>
+            <th>Alterar Status</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +50,11 @@ function ListarNaoConcluidos() {
               <td data-label="Descricao">{tarefa.descricao}</td>
               <td data-label="Status">{tarefa.status}</td>
               <td  data-label="CriadoEm">{tarefa.criadoEm}</td>
+              <td data-label="Alterar">
+                <button onClick={() => alterar(tarefa.tarefaId!)}>
+                  Alterar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

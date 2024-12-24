@@ -52,9 +52,9 @@ namespace API.Migrations
                 columns: new[] { "CategoriaId", "CriadoEm", "Nome" },
                 values: new object[,]
                 {
-                    { "39be53a2-fc09-4b6a-bafa-18a6a23c8f6e", new DateTime(2024, 12, 23, 18, 39, 52, 93, DateTimeKind.Local).AddTicks(5407), "Lazer" },
-                    { "6d091456-5a2f-4b5a-98fc-f1a3b50a627d", new DateTime(2024, 12, 22, 18, 39, 52, 93, DateTimeKind.Local).AddTicks(5404), "Estudos" },
-                    { "bfe4e7dc-81e4-4e47-a67b-d4fbf3e124bd", new DateTime(2024, 12, 21, 18, 39, 52, 93, DateTimeKind.Local).AddTicks(5396), "Trabalho" }
+                    { "39be53a2-fc09-4b6a-bafa-18a6a23c8f6e", new DateTime(2024, 12, 27, 17, 36, 56, 635, DateTimeKind.Local).AddTicks(8529), "Lazer" },
+                    { "6d091456-5a2f-4b5a-98fc-f1a3b50a627d", new DateTime(2024, 12, 26, 17, 36, 56, 635, DateTimeKind.Local).AddTicks(8510), "Estudos" },
+                    { "bfe4e7dc-81e4-4e47-a67b-d4fbf3e124bd", new DateTime(2024, 12, 25, 17, 36, 56, 635, DateTimeKind.Local).AddTicks(8502), "Trabalho" }
                 });
 
             migrationBuilder.InsertData(
@@ -62,9 +62,9 @@ namespace API.Migrations
                 columns: new[] { "TarefaId", "CategoriaId", "CriadoEm", "Descricao", "Status", "Titulo" },
                 values: new object[,]
                 {
-                    { "2f1b7dc1-3b9a-4e1a-a389-7f5d2f1c8f3e", "6d091456-5a2f-4b5a-98fc-f1a3b50a627d", new DateTime(2024, 12, 23, 18, 39, 52, 93, DateTimeKind.Local).AddTicks(5570), "Preparar-se para a aula de Angular", "Não iniciada", "Estudar Angular" },
-                    { "6a8b3e4d-5e4e-4f7e-bdc9-9181e456ad0e", "bfe4e7dc-81e4-4e47-a67b-d4fbf3e124bd", new DateTime(2024, 12, 27, 18, 39, 52, 93, DateTimeKind.Local).AddTicks(5564), "Terminar relatório para reunião", "Não iniciada", "Concluir relatório" },
-                    { "e5d4a7b9-1f9e-4c4a-ae3b-5b7c1a9d2e3f", "39be53a2-fc09-4b6a-bafa-18a6a23c8f6e", new DateTime(2025, 1, 3, 18, 39, 52, 93, DateTimeKind.Local).AddTicks(5573), "Dar um passeio relaxante no parque", "Não iniciada", "Passeio no parque" }
+                    { "2f1b7dc1-3b9a-4e1a-a389-7f5d2f1c8f3e", "6d091456-5a2f-4b5a-98fc-f1a3b50a627d", new DateTime(2024, 12, 27, 17, 36, 56, 635, DateTimeKind.Local).AddTicks(8685), "Preparar-se para a aula de Angular", "Não iniciada", "Estudar Angular" },
+                    { "6a8b3e4d-5e4e-4f7e-bdc9-9181e456ad0e", "bfe4e7dc-81e4-4e47-a67b-d4fbf3e124bd", new DateTime(2024, 12, 31, 17, 36, 56, 635, DateTimeKind.Local).AddTicks(8680), "Terminar relatório para reunião", "Não iniciada", "Concluir relatório" },
+                    { "e5d4a7b9-1f9e-4c4a-ae3b-5b7c1a9d2e3f", "39be53a2-fc09-4b6a-bafa-18a6a23c8f6e", new DateTime(2025, 1, 7, 17, 36, 56, 635, DateTimeKind.Local).AddTicks(8697), "Dar um passeio relaxante no parque", "Não iniciada", "Passeio no parque" }
                 });
 
             migrationBuilder.CreateIndex(

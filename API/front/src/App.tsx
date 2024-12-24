@@ -16,16 +16,15 @@ function App() {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/pages/tarefa/cadastrar">Cadastrar Tarefas</Link>
-              </li>
-              <li>
                 <Link to="/pages/tarefa/concluidas">Listar Tarefas Concluidas
                 </Link>
               </li>
               <li>
                 <Link to="pages/tarefa/naoconcluidas">Listar Tarefas não Concluidas</Link>
               </li>
-
+              <li>
+                <Link to="/pages/tarefa/cadastrar">Cadastrar Tarefas</Link>
+              </li>
             </ul>
           </nav>
           <Routes>

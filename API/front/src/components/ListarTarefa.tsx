@@ -14,7 +14,7 @@ function ListarTarefa() {
     axios
       .put(`http://localhost:5000/api/tarefas/alterar/${id}`)
       .then((resposta) => {
-        // setTarefas(resposta.data);
+        setTarefas(resposta.data);
       });
   }
   
@@ -39,6 +39,7 @@ function ListarTarefa() {
             <th>Descricao</th>
             <th>Status</th>
             <th>Criado Em</th>
+            <th>Categoria</th>
             <th>Alterar Status</th>
           </tr>
         </thead>
@@ -50,6 +51,7 @@ function ListarTarefa() {
               <td data-label="Descricao">{tarefa.descricao}</td>
               <td data-label="Status">{tarefa.status}</td>
               <td  data-label="CriadoEm">{tarefa.criadoEm}</td>
+              <td>{tarefa.categoria?.nome}</td>
               <td data-label="Alterar">
                 <button onClick={() => alterar(tarefa.tarefaId!)}>
                   Alterar

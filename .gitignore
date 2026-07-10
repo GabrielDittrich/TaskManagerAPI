@@ -179,6 +179,10 @@ DocProject/Help/html
 # Click-Once directory
 publish/
 
+# DB
+*.db-shm
+*.db-wal
+
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml

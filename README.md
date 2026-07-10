@@ -1,131 +1,215 @@
 # TaskManagerAPI
 
-TaskManagerAPI é uma API simples projetada para gerenciar tarefas e suas categorias associadas. O projeto demonstra a implementação de um backend desenvolvido com ASP.NET Core e um frontend desenvolvido com React.
+Projeto de estudo e portfólio para gerenciamento de tarefas e categorias.
+
+A aplicação possui uma API REST desenvolvida com C# e ASP.NET Core, utilizando Entity Framework Core e SQLite para persistência dos dados. Também conta com um frontend em React com TypeScript para consumir os endpoints da API.
 
 ## Funcionalidades
 
-- Gerenciar tarefas com operações CRUD.
-- Gerenciar categorias associadas às tarefas.
-- Filtrar tarefas por status de conclusão.
-- Integração suave com um banco de dados SQLite para persistência de dados.
+- Cadastro de tarefas
+- Listagem de tarefas
+- Atualização de status das tarefas
+- Exclusão de tarefas
+- Cadastro de categorias
+- Listagem de tarefas concluídas
+- Listagem de tarefas não concluídas
+- Persistência de dados com SQLite
+- Dados iniciais para testes via migrations
 
-## Tecnologias Utilizadas
+## Tecnologias utilizadas
 
 ### Backend
-- **Linguagem:** C#
-- **Framework:** ASP.NET Core
-- **Banco de Dados:** SQLite
-- **Bibliotecas:** Entity Framework Core
+
+- C#
+- ASP.NET Core
+- Entity Framework Core
+- SQLite
+- Swagger
 
 ### Frontend
-- **Linguagem:** TypeScript
-- **Framework:** React
-- **Cliente HTTP:** Axios
 
-## Instalação e Configuração
+- React
+- TypeScript
+- Axios
 
-### Configuração do Backend
+## Estrutura do projeto
+
+```text
+TaskManagerAPI
+├── API
+│   ├── API        # Backend ASP.NET Core
+│   └── front      # Frontend React
+└── README.md
+```
+## Como executar o projeto
+### Pré-requisitos
+
+Antes de começar, é necessário ter instalado:
+
+- .NET SDK
+- Node.js
+- Git
+- Entity Framework CLI
+
+Caso não tenha o Entity Framework CLI instalado, execute:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+## Configuração do backend
 
 1. Clone o repositório:
-   ```bash
-   git clone https://github.com/your-repo/TaskManagerApi.git
-   cd TaskManagerApi
 
-2. Restaure as dependências:
-   ```bash
-   dotnet restore
+```bash
+git clone https://github.com/GabrielDittrich/TaskManagerAPI.git
+```
 
-3. Execute as migrações do banco de dados:
-   ```bash
-   dotnet ef database update
+2. Acesse a pasta da API:
 
-4. Inicie a API
-      ```bash
-   dotnet run
+```bash
+cd TaskManagerAPI/API/API
+```
 
-### Configuração do Frontend
+3. Restaure as dependências:
 
-1. Navegue até o diretório do frontend:
-   ```bash
-   cd frontend
-   ```
+```bash
+dotnet restore
+```
+
+4. Crie o banco de dados com as migrations:
+
+```bash
+dotnet ef database update
+```
+
+5. Execute a API:
+
+```bash
+dotnet run
+```
+
+Após iniciar a aplicação, acesse o Swagger para testar os endpoints:
+
+```text
+http://localhost:5000/swagger
+```
+
+> A porta pode variar conforme a configuração local do projeto.
+
+## Configuração do frontend
+
+1. Acesse a pasta do frontend:
+
+```bash
+cd TaskManagerAPI/API/front
+```
 
 2. Instale as dependências:
-   ```bash
-   npm install
-   ```
 
-3. Inicie o frontend:
-   ```bash
-   npm start
-   ```
+```bash
+npm install
+```
+
+3. Execute o frontend:
+
+```bash
+npm start
+```
+
+> Caso o projeto utilize Vite, use `npm run dev`.
 
 ## Endpoints da API
 
 ### Categorias
 
-- **GET** `/api/categoria/listar`: Lista todas as categorias.
-- **POST** `/api/categoria/cadastrar`: Adiciona uma nova categoria. Requer um corpo JSON com a seguinte estrutura:
-  ```json
-  {
-    "nome": "Nome da Categoria"
-  }
-  ```
+| Método | Endpoint | Descrição |
+|---|---|---|
+| GET | `/api/categoria/listar` | Lista todas as categorias |
+| POST | `/api/categoria/cadastrar` | Cadastra uma nova categoria |
+
+Exemplo de cadastro de categoria:
+
+```json
+{
+  "nome": "Nome da Categoria"
+}
+```
 
 ### Tarefas
 
-- **GET** `/api/tarefas/listar`: Lista todas as tarefas.
-- **POST** `/api/tarefas/cadastrar`: Adiciona uma nova tarefa. Requer um corpo JSON com a seguinte estrutura:
-  ```json
-  {
-    "titulo": "Título da Tarefa",
-    "descricao": "Descrição da Tarefa",
-    "categoriaId": "ID da Categoria"
-  }
-  ```
-- **PUT** `/api/tarefas/alterar/{id}`: Atualiza o status de uma tarefa pelo seu ID.
-- **DELETE** `/api/tarefas/excluir/{id}`: Deleta uma tarefa pelo seu ID.
-- **GET** `/api/tarefas/naoconcluidas`: Lista todas as tarefas não concluídas.
-- **GET** `/api/tarefas/concluidas`:  Lista todas as tarefas concluídas.
+| Método | Endpoint | Descrição |
+|---|---|---|
+| GET | `/api/tarefas/listar` | Lista todas as tarefas |
+| POST | `/api/tarefas/cadastrar` | Cadastra uma nova tarefa |
+| PUT | `/api/tarefas/alterar/{id}` | Atualiza o status de uma tarefa |
+| DELETE | `/api/tarefas/excluir/{id}` | Remove uma tarefa |
+| GET | `/api/tarefas/naoconcluidas` | Lista tarefas não concluídas |
+| GET | `/api/tarefas/concluidas` | Lista tarefas concluídas |
 
-## Páginas do Frontend
+Exemplo de cadastro de tarefa:
 
-### CadastrarTarefa
+```json
+{
+  "titulo": "Título da Tarefa",
+  "descricao": "Descrição da Tarefa",
+  "categoriaId": "ID da Categoria"
+}
+```
 
-- Formulário para criar novas tarefas e categorias.
-- Menu suspenso para selecionar categorias existentes.
-- Botão para criar uma nova categoria, se necessário.
+## Páginas do frontend
 
-### ListarConcluido
+### Cadastrar tarefa
 
-- Exibe todas as tarefas concluídas em formato de tabela.
+- Formulário para cadastrar tarefas
+- Seleção de categorias existentes
+- Opção para cadastrar uma nova categoria
 
-### ListarNaoConcluidos
+### Listar tarefas
 
-- Exibe todas as tarefas não concluídas.
-- Opção para atualizar o status de cada tarefa.
+- Exibição de todas as tarefas cadastradas
+- Visualização dos detalhes da tarefa
+- Opção para atualizar o status
 
-### ListarTarefa
+### Tarefas concluídas
 
-- Lista todas as tarefas com seus detalhes.
-- Opção para atualizar o status de cada tarefa.
+- Exibição das tarefas com status concluído
 
-## Dados de Semente do Banco de Dados
+### Tarefas não concluídas
 
-O banco de dados é inicializado com dados de exemplo para fins de teste:
+- Exibição das tarefas pendentes
+- Opção para alterar o status da tarefa
+
+## Banco de dados
+
+O projeto utiliza SQLite com Entity Framework Core.
+
+O arquivo `.db` não é versionado no GitHub. Para criar o banco localmente, execute:
+
+```bash
+dotnet ef database update
+```
+
+As migrations já incluem dados iniciais de exemplo para facilitar os testes.
+
+## Dados iniciais
 
 ### Categorias
 
-| CategoriaId                             | Nome       | CriadoEm  |
-|-----------------------------------------|------------|-----------|
-| bfe4e7dc-81e4-4e47-a67b-d4fbf3e124bd   | Trabalho   | +1 Day    |
-| 6d091456-5a2f-4b5a-98fc-f1a3b50a627d   | Estudos    | +2 Days   |
-| 39be53a2-fc09-4b6a-bafa-18a6a23c8f6e   | Lazer      | +3 Days   |
+| Nome |
+|---|
+| Trabalho |
+| Estudos |
+| Lazer |
 
 ### Tarefas
 
-| TarefaId                               | Titulo             | Descricao                     | CategoriaId                             | Status       | CriadoEm  |
-|----------------------------------------|--------------------|-------------------------------|-----------------------------------------|--------------|-----------|
-| 6a8b3e4d-5e4e-4f7e-bdc9-9181e456ad0e  | Concluir relatório | Terminar relatório para reunião | bfe4e7dc-81e4-4e47-a67b-d4fbf3e124bd | Não iniciada | +7 Days   |
-| 2f1b7dc1-3b9a-4e1a-a389-7f5d2f1c8f3e  | Estudar Angular    | Preparar-se para a aula de Angular | 6d091456-5a2f-4b5a-98fc-f1a3b50a627d | Não iniciada | +3 Days   |
-| e5d4a7b9-1f9e-4c4a-ae3b-5b7c1a9d2e3f  | Passeio no parque  | Dar um passeio relaxante no parque | 39be53a2-fc09-4b6a-bafa-18a6a23c8f6e | Não iniciada | +14 Days  |
+| Título | Descrição | Status |
+|---|---|---|
+| Concluir relatório | Terminar relatório para reunião | Não iniciada |
+| Estudar Angular | Preparar-se para a aula de Angular | Não iniciada |
+| Passeio no parque | Dar um passeio relaxante no parque | Não iniciada |
+
+## Objetivo do projeto
+
+Este projeto foi desenvolvido para praticar conceitos de desenvolvimento web full stack, incluindo criação de API REST, integração com banco de dados, consumo de API no frontend e organização de funcionalidades em um sistema simples de tarefas.

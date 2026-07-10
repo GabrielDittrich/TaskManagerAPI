@@ -14,7 +14,7 @@ builder.Services.AddCors( // Configurando o Cors
 var app = builder.Build();
 
 
-app.MapGet("/", () => "Prova A1");
+app.MapGet("/", () => "TaskManager API");
 
 //ENDPOINTS DE CATEGORIA
 //GET: http://localhost:5273/api/categoria/listar

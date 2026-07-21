@@ -36,9 +36,8 @@ A aplicação possui uma API REST desenvolvida com C# e ASP.NET Core, utilizando
 
 ```text
 TaskManagerAPI
-├── API
-│   ├── API        # Backend ASP.NET Core
-│   └── front      # Frontend React
+│   ├── backend   # Backend ASP.NET Core
+│   └── frontend      # Frontend React
 └── README.md
 ```
 ## Como executar o projeto
@@ -68,7 +67,7 @@ git clone https://github.com/GabrielDittrich/TaskManagerAPI.git
 2. Acesse a pasta da API:
 
 ```bash
-cd TaskManagerAPI/API/API
+cd TaskManagerAPI/backend
 ```
 
 3. Restaure as dependências:
@@ -102,7 +101,7 @@ http://localhost:5000/swagger
 1. Acesse a pasta do frontend:
 
 ```bash
-cd TaskManagerAPI/API/front
+cd TaskManagerAPI/frontend
 ```
 
 2. Instale as dependências:

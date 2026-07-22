@@ -1,122 +1,126 @@
-# TaskManagerAPI
+# TaskManager
 
-Projeto de estudo e portfólio para gerenciamento de tarefas e categorias.
+Aplicação full stack para gerenciamento de tarefas e categorias, desenvolvida com **ASP.NET Core Minimal API** no backend e **React com TypeScript** no frontend.
 
-A aplicação possui uma API REST desenvolvida com C# e ASP.NET Core, utilizando Entity Framework Core e SQLite para persistência dos dados. Também conta com um frontend em React com TypeScript para consumir os endpoints da API.
+O sistema permite cadastrar tarefas, organizá-las por categoria, acompanhar seus status e consultar tarefas concluídas ou pendentes por meio de uma interface responsiva.
+
+> Projeto desenvolvido para praticar criação de APIs REST, integração entre frontend e backend, persistência de dados, React, TypeScript e desenvolvimento responsivo.
+
+---
 
 ## Funcionalidades
 
 - Cadastro de tarefas
-- Listagem de tarefas
-- Atualização de status das tarefas
-- Exclusão de tarefas
 - Cadastro de categorias
+- Associação de tarefas a categorias
+- Listagem de todas as tarefas
 - Listagem de tarefas concluídas
 - Listagem de tarefas não concluídas
-- Persistência de dados com SQLite
-- Dados iniciais para testes via migrations
+- Alteração do status das tarefas
+- Exclusão de tarefas pela API
+- Navegação entre páginas com React Router
+- Menu responsivo para dispositivos móveis
+- Feedback visual de sucesso e erro
+- Documentação interativa da API com Swagger
+- Integração entre frontend e backend utilizando HTTP e JSON
+
+---
 
 ## Tecnologias utilizadas
 
 ### Backend
 
 - C#
-- ASP.NET Core
+- .NET 8
+- ASP.NET Core Minimal API
 - Entity Framework Core
-- SQLite
+- LINQ
 - Swagger
+- OpenAPI
+- API REST
 
 ### Frontend
 
 - React
 - TypeScript
+- React Router DOM
 - Axios
+- Fetch API
+- HTML
+- CSS responsivo
+
+### Ferramentas
+
+- Visual Studio Code
+- Git
+- GitHub
+- Linux / Debian
+- Swagger UI
+
+---
 
 ## Estrutura do projeto
 
 ```text
-TaskManagerAPI
-│   ├── backend   # Backend ASP.NET Core
-│   └── frontend      # Frontend React
-└── README.md
-```
-## Como executar o projeto
-### Pré-requisitos
-
-Antes de começar, é necessário ter instalado:
-
-- .NET SDK
-- Node.js
-- Git
-- Entity Framework CLI
-
-Caso não tenha o Entity Framework CLI instalado, execute:
-
-```bash
-dotnet tool install --global dotnet-ef
-```
-
-## Configuração do backend
-
-1. Clone o repositório:
-
-```bash
-git clone https://github.com/GabrielDittrich/TaskManagerAPI.git
-```
-
-2. Acesse a pasta da API:
-
-```bash
-cd TaskManagerAPI/backend
-```
-
-3. Restaure as dependências:
-
-```bash
-dotnet restore
+TaskManagerAPI/
+├── backend/
+│   ├── Migrations/
+│   ├── Models/
+│   ├── Properties/
+│   ├── Tests/
+│   ├── API.csproj
+│   ├── API.sln
+│   ├── Program.cs
+│   ├── appsettings.Development.json
+│   └── appsettings.json
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── config/
+│   │   │   └── api.ts
+│   │   ├── models/
+│   │   ├── App.tsx
+│   │   ├── App.css
+│   │   └── global.d.ts
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
+│   └── tsconfig.json
+│
+├── .gitattributes
+├── .gitignore
+├── README.md
+└── TaskManagerAPI.sln
 ```
 
-4. Crie o banco de dados com as migrations:
+---
 
-```bash
-dotnet ef database update
-```
+## Arquitetura
 
-5. Execute a API:
+O projeto está dividido em duas aplicações principais:
 
-```bash
-dotnet run
-```
-
-Após iniciar a aplicação, acesse o Swagger para testar os endpoints:
+- O **backend** disponibiliza os endpoints da API, realiza o acesso aos dados e controla as operações relacionadas às tarefas e categorias.
+- O **frontend** consome a API e apresenta as funcionalidades ao usuário.
+- A comunicação entre as aplicações é realizada por requisições HTTP utilizando dados no formato JSON.
 
 ```text
-http://localhost:5000/swagger
+React + TypeScript
+        │
+        │ HTTP / JSON
+        ▼
+ASP.NET Core Minimal API
+        │
+        ▼
+Entity Framework Core
+        │
+        ▼
+Banco de dados
 ```
 
-> A porta pode variar conforme a configuração local do projeto.
-
-## Configuração do frontend
-
-1. Acesse a pasta do frontend:
-
-```bash
-cd TaskManagerAPI/frontend
-```
-
-2. Instale as dependências:
-
-```bash
-npm install
-```
-
-3. Execute o frontend:
-
-```bash
-npm start
-```
-
-> Caso o projeto utilize Vite, use `npm run dev`.
+---
 
 ## Endpoints da API
 
@@ -124,91 +128,267 @@ npm start
 
 | Método | Endpoint | Descrição |
 |---|---|---|
-| GET | `/api/categoria/listar` | Lista todas as categorias |
-| POST | `/api/categoria/cadastrar` | Cadastra uma nova categoria |
-
-Exemplo de cadastro de categoria:
-
-```json
-{
-  "nome": "Nome da Categoria"
-}
-```
+| `GET` | `/api/categoria/listar` | Lista todas as categorias |
+| `POST` | `/api/categoria/cadastrar` | Cadastra uma nova categoria |
 
 ### Tarefas
 
 | Método | Endpoint | Descrição |
 |---|---|---|
-| GET | `/api/tarefas/listar` | Lista todas as tarefas |
-| POST | `/api/tarefas/cadastrar` | Cadastra uma nova tarefa |
-| PUT | `/api/tarefas/alterar/{id}` | Atualiza o status de uma tarefa |
-| DELETE | `/api/tarefas/excluir/{id}` | Remove uma tarefa |
-| GET | `/api/tarefas/naoconcluidas` | Lista tarefas não concluídas |
-| GET | `/api/tarefas/concluidas` | Lista tarefas concluídas |
+| `GET` | `/api/tarefas/listar` | Lista todas as tarefas |
+| `GET` | `/api/tarefas/concluidas` | Lista as tarefas concluídas |
+| `GET` | `/api/tarefas/naoconcluidas` | Lista as tarefas ainda não concluídas |
+| `POST` | `/api/tarefas/cadastrar` | Cadastra uma nova tarefa |
+| `PUT` | `/api/tarefas/alterar/{id}` | Altera o status de uma tarefa |
+| `DELETE` | `/api/tarefas/excluir/{id}` | Exclui uma tarefa |
 
-Exemplo de cadastro de tarefa:
+---
+
+## Exemplos de requisições
+
+### Cadastro de categoria
 
 ```json
 {
-  "titulo": "Título da Tarefa",
-  "descricao": "Descrição da Tarefa",
-  "categoriaId": "ID da Categoria"
+  "nome": "Estudos"
 }
 ```
 
-## Páginas do frontend
+### Cadastro de tarefa
 
-### Cadastrar tarefa
-
-- Formulário para cadastrar tarefas
-- Seleção de categorias existentes
-- Opção para cadastrar uma nova categoria
-
-### Listar tarefas
-
-- Exibição de todas as tarefas cadastradas
-- Visualização dos detalhes da tarefa
-- Opção para atualizar o status
-
-### Tarefas concluídas
-
-- Exibição das tarefas com status concluído
-
-### Tarefas não concluídas
-
-- Exibição das tarefas pendentes
-- Opção para alterar o status da tarefa
-
-## Banco de dados
-
-O projeto utiliza SQLite com Entity Framework Core.
-
-O arquivo `.db` não é versionado no GitHub. Para criar o banco localmente, execute:
-
-```bash
-dotnet ef database update
+```json
+{
+  "titulo": "Estudar React",
+  "descricao": "Revisar componentes, estados e useEffect",
+  "categoriaId": "ID_DA_CATEGORIA"
+}
 ```
 
-As migrations já incluem dados iniciais de exemplo para facilitar os testes.
+---
 
-## Dados iniciais
+## Interface responsiva
 
-### Categorias
+A interface foi desenvolvida para funcionar em computadores, tablets e celulares.
 
-| Nome |
-|---|
-| Trabalho |
-| Estudos |
-| Lazer |
+Entre os recursos implementados estão:
 
-### Tarefas
+- Menu horizontal no desktop
+- Menu recolhível em dispositivos móveis
+- Destaque automático da página atual
+- Formulário de cadastro organizado em um card
+- Cadastro de categoria dentro da tela de tarefas
+- Tarefas exibidas como cards em telas menores
+- Mensagens visuais de sucesso e erro
+- Campos com feedback visual ao receber foco
 
-| Título | Descrição | Status |
-|---|---|---|
-| Concluir relatório | Terminar relatório para reunião | Não iniciada |
-| Estudar Angular | Preparar-se para a aula de Angular | Não iniciada |
-| Passeio no parque | Dar um passeio relaxante no parque | Não iniciada |
+---
 
-## Objetivo do projeto
+## Como executar o projeto
 
-Este projeto foi desenvolvido para praticar conceitos de desenvolvimento web full stack, incluindo criação de API REST, integração com banco de dados, consumo de API no frontend e organização de funcionalidades em um sistema simples de tarefas.
+### Pré-requisitos
+
+Antes de iniciar, tenha instalado:
+
+- .NET SDK 8
+- Node.js
+- npm
+- Git
+
+Verifique as instalações:
+
+```bash
+dotnet --version
+node --version
+npm --version
+git --version
+```
+
+---
+
+## 1. Clonar o repositório
+
+```bash
+git clone https://github.com/GabrielDittrich/TaskManagerAPI.git
+```
+
+Entre na pasta do projeto:
+
+```bash
+cd TaskManagerAPI
+```
+
+---
+
+## 2. Configurar e executar o backend
+
+Abra um terminal na raiz do projeto e entre na pasta do backend:
+
+```bash
+cd backend
+```
+
+Restaure as dependências:
+
+```bash
+dotnet restore
+```
+
+Compile o projeto:
+
+```bash
+dotnet build
+```
+
+Execute a API:
+
+```bash
+dotnet run
+```
+
+O terminal mostrará o endereço em que a API foi iniciada.
+
+Exemplo:
+
+```text
+Now listening on: http://localhost:5000
+```
+
+### Swagger
+
+Com o backend em execução no ambiente de desenvolvimento, acesse:
+
+```text
+http://localhost:5000/swagger
+```
+
+Caso o terminal mostre outra porta, substitua `5000` pela porta apresentada.
+
+Exemplo:
+
+```text
+http://localhost:5273/swagger
+```
+
+---
+
+## 3. Configurar o frontend
+
+Abra outro terminal na raiz do projeto:
+
+```bash
+cd frontend
+```
+
+Crie o arquivo `.env` utilizando o modelo disponível no projeto:
+
+```bash
+cp .env.example .env
+```
+
+O arquivo `.env` deve possuir:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+A URL deve utilizar a mesma porta em que o backend está sendo executado.
+
+Caso o backend esteja na porta `5273`, use:
+
+```env
+REACT_APP_API_URL=http://localhost:5273
+```
+
+> Sempre reinicie o frontend após alterar o arquivo `.env`.
+
+---
+
+## 4. Executar o frontend
+
+Ainda dentro da pasta `frontend`, instale as dependências:
+
+```bash
+npm install
+```
+
+Execute a aplicação:
+
+```bash
+npm start
+```
+
+Depois, acesse:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## Variável de ambiente
+
+A URL da API está centralizada no arquivo:
+
+```text
+frontend/src/config/api.ts
+```
+
+A aplicação utiliza a variável:
+
+```env
+REACT_APP_API_URL
+```
+
+Dessa forma, não é necessário alterar vários componentes quando a porta ou o endereço do backend mudar.
+
+Exemplo de utilização:
+
+```tsx
+fetch(`${API_URL}/api/tarefas/listar`);
+```
+
+O arquivo `.env` não deve ser enviado ao GitHub, pois cada desenvolvedor pode utilizar uma configuração local diferente.
+
+O arquivo que deve ser versionado é:
+
+```text
+frontend/.env.example
+```
+
+---
+
+## Principais componentes do frontend
+
+| Componente | Responsabilidade |
+|---|---|
+| `ListarTarefa` | Lista todas as tarefas e permite alterar seus status |
+| `ListarConcluido` | Exibe somente tarefas concluídas |
+| `ListarNaoConcluido` | Exibe somente tarefas pendentes |
+| `CadastrarTarefa` | Permite cadastrar tarefas e categorias |
+| `App` | Configura as rotas e o menu de navegação |
+
+---
+
+## Principais conceitos aplicados
+
+Durante o desenvolvimento foram praticados conceitos como:
+
+- Criação de APIs REST com ASP.NET Core
+- Desenvolvimento utilizando Minimal APIs
+- Criação e consumo de endpoints HTTP
+- Utilização do Entity Framework Core
+- Criação e aplicação de migrations
+- Relacionamento entre tarefas e categorias
+- Consultas utilizando LINQ
+- Documentação de API com Swagger
+- Gerenciamento de estados com React
+- Utilização do hook `useEffect`
+- Prevenção de requisições repetidas
+- Navegação com React Router DOM
+- Requisições com Axios e Fetch API
+- Tipagem de dados com TypeScript
+- Variáveis de ambiente no frontend
+- Desenvolvimento responsivo com CSS
+- Versionamento com Git e GitHub
+
+---

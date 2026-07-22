@@ -3,13 +3,12 @@ import { Tarefa } from "../models/Tarefas";
 import axios from "axios";
 
 function ListarTarefa() {
-  
-    const [tarefas, setTarefas] = useState<Tarefa[]>([]);
-  
+  const [tarefas, setTarefas] = useState<Tarefa[]>([]);
+
   useEffect(() => {
     carregarTarefas();
-  });
-  
+  }, []);
+
   function alterar(id: string) {
     axios
       .put(`http://localhost:5000/api/tarefas/alterar/${id}`)
@@ -17,17 +16,17 @@ function ListarTarefa() {
         setTarefas(resposta.data);
       });
   }
-  
-  function carregarTarefas(){
+
+  function carregarTarefas() {
     fetch("http://localhost:5000/api/tarefas/listar")
       .then((resposta) => {
         return resposta.json();
       })
       .then((tarefas) => {
-        setTarefas(tarefas)
+        setTarefas(tarefas);
       });
   }
-  
+
   return (
     <div className="container">
       <h1>Lista de Tarefas</h1>
@@ -45,12 +44,12 @@ function ListarTarefa() {
         </thead>
         <tbody>
           {tarefas.map((tarefa) => (
-            <tr key={tarefa.tarefaId}>
+            <tr key={tarefa.tarefaId} className="tarefa-item">
               <td data-label="Id">{tarefa.tarefaId}</td>
               <td data-label="Titulo">{tarefa.titulo}</td>
               <td data-label="Descricao">{tarefa.descricao}</td>
               <td data-label="Status">{tarefa.status}</td>
-              <td  data-label="CriadoEm">{tarefa.criadoEm}</td>
+              <td data-label="CriadoEm">{tarefa.criadoEm}</td>
               <td>{tarefa.categoria?.nome}</td>
               <td data-label="Alterar">
                 <button onClick={() => alterar(tarefa.tarefaId!)}>
@@ -63,6 +62,6 @@ function ListarTarefa() {
       </table>
     </div>
   );
-  }
-  
-  export default ListarTarefa;
+}
+
+export default ListarTarefa;

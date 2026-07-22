@@ -2,23 +2,12 @@ import { useEffect, useState } from "react";
 import { Tarefa } from "../models/Tarefas";
 import axios from "axios";
 
-function ListarNaoConcluidos() {
-  
-    const [tarefas, setTarefas] = useState<Tarefa[]>([]);
+function ListarTarefa() {
+  const [tarefas, setTarefas] = useState<Tarefa[]>([]);
 
   useEffect(() => {
     carregarTarefas();
-  });
-
-  function carregarTarefas(){
-    fetch("http://localhost:5000/api/tarefas/naoconcluidas")
-      .then((resposta) => {
-        return resposta.json();
-      })
-      .then((tarefas) => {
-        setTarefas(tarefas);
-      });
-  }
+  }, []);
 
   function alterar(id: string) {
     axios
@@ -27,10 +16,21 @@ function ListarNaoConcluidos() {
         setTarefas(resposta.data);
       });
   }
-  
+
+  function carregarTarefas() {
+    fetch("http://localhost:5000/api/tarefas/listar")
+      .then((resposta) => {
+        return resposta.json();
+      })
+      .then((tarefas) => {
+        setTarefas(tarefas);
+      });
+  }
+
   return (
     <div className="container">
       <h1>Lista de Tarefas</h1>
+
       <table>
         <thead>
           <tr>
@@ -39,17 +39,21 @@ function ListarNaoConcluidos() {
             <th>Descricao</th>
             <th>Status</th>
             <th>Criado Em</th>
+            <th>Categoria</th>
             <th>Alterar Status</th>
           </tr>
         </thead>
+
         <tbody>
           {tarefas.map((tarefa) => (
-            <tr key={tarefa.tarefaId}>
+            <tr key={tarefa.tarefaId} className="tarefa-item">
               <td data-label="Id">{tarefa.tarefaId}</td>
               <td data-label="Titulo">{tarefa.titulo}</td>
               <td data-label="Descricao">{tarefa.descricao}</td>
               <td data-label="Status">{tarefa.status}</td>
-              <td  data-label="CriadoEm">{tarefa.criadoEm}</td>
+              <td data-label="CriadoEm">{tarefa.criadoEm}</td>
+              <td data-label="Categoria">{tarefa.categoria?.nome}</td>
+
               <td data-label="Alterar">
                 <button onClick={() => alterar(tarefa.tarefaId!)}>
                   Alterar
@@ -63,4 +67,4 @@ function ListarNaoConcluidos() {
   );
 }
 
-export default ListarNaoConcluidos;
+export default ListarTarefa;

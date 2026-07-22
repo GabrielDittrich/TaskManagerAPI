@@ -1,46 +1,459 @@
-# Getting Started with Create React App
+# TaskManager Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Interface web da aplicação **TaskManager**, desenvolvida com **React** e **TypeScript**.
 
-## Available Scripts
+O frontend consome a API ASP.NET Core e permite cadastrar, visualizar e organizar tarefas e categorias em uma interface responsiva.
 
-In the project directory, you can run:
+Para uma visão geral do projeto, consulte o [README principal](../README.md).
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Funcionalidades
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Listagem de todas as tarefas
+- Listagem de tarefas concluídas
+- Listagem de tarefas pendentes
+- Cadastro de tarefas
+- Cadastro de categorias
+- Alteração do status das tarefas
+- Navegação entre páginas
+- Destaque visual da rota atual
+- Menu responsivo para dispositivos móveis
+- Feedback de sucesso e erro
+- Interface adaptada para desktop, tablet e celular
+- Integração com a API utilizando Axios e Fetch API
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tecnologias utilizadas
 
-### `npm run build`
+- React
+- TypeScript
+- React Router DOM
+- Axios
+- Fetch API
+- HTML
+- CSS
+- Create React App
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Estrutura do frontend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```text
+frontend/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── CadastrarTarefa.tsx
+│   │   ├── ListarConcluido.tsx
+│   │   ├── ListarNaoConcluido.tsx
+│   │   └── ListarTarefa.tsx
+│   │
+│   ├── config/
+│   │   └── api.ts
+│   │
+│   ├── models/
+│   │   ├── Categoria.ts
+│   │   └── Tarefas.ts
+│   │
+│   ├── App.tsx
+│   ├── App.css
+│   ├── global.d.ts
+│   └── index.tsx
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+└── README.md
+```
 
-### `npm run eject`
+> Alguns nomes podem variar conforme a estrutura atual do projeto.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Principais componentes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+| Componente | Responsabilidade |
+|---|---|
+| `App` | Configura as rotas e o menu de navegação |
+| `ListarTarefa` | Exibe todas as tarefas e permite alterar o status |
+| `ListarConcluido` | Exibe as tarefas concluídas |
+| `ListarNaoConcluido` | Exibe as tarefas ainda não concluídas |
+| `CadastrarTarefa` | Permite cadastrar tarefas e categorias |
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## Rotas da aplicação
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Rota | Página |
+|---|---|
+| `/` | Lista de todas as tarefas |
+| `/pages/tarefa/concluidas` | Lista de tarefas concluídas |
+| `/pages/tarefa/naoconcluidas` | Lista de tarefas pendentes |
+| `/pages/tarefa/cadastrar` | Cadastro de tarefas e categorias |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+## Interface responsiva
+
+A interface possui adaptações para diferentes tamanhos de tela.
+
+### Desktop
+
+- Menu horizontal
+- Tabelas com colunas
+- Formulários centralizados
+- Área de conteúdo com largura máxima
+
+### Celular
+
+- Menu recolhível
+- Tarefas apresentadas como cards
+- Campos ocupando a largura disponível
+- Botões maiores para facilitar o toque
+- Labels e valores organizados verticalmente
+
+---
+
+## Variável de ambiente
+
+O endereço da API é definido pela variável:
+
+```env
+REACT_APP_API_URL
+```
+
+O arquivo local deve ficar em:
+
+```text
+frontend/.env
+```
+
+Exemplo:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+A configuração é lida pelo arquivo:
+
+```text
+src/config/api.ts
+```
+
+Exemplo:
+
+```ts
+const API_URL = process.env.REACT_APP_API_URL;
+
+if (!API_URL) {
+  throw new Error(
+    "A variável REACT_APP_API_URL não foi configurada no arquivo .env."
+  );
+}
+
+export default API_URL;
+```
+
+Nos componentes, a URL é reutilizada desta forma:
+
+```ts
+import API_URL from "../config/api";
+
+fetch(`${API_URL}/api/tarefas/listar`);
+```
+
+Assim, quando a porta do backend mudar, não é necessário alterar todos os componentes.
+
+---
+
+## Arquivos `.env` e `.env.example`
+
+### `.env`
+
+O arquivo `.env` contém a configuração utilizada localmente:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+Esse arquivo não deve ser enviado ao GitHub.
+
+### `.env.example`
+
+O `.env.example` deve ser versionado e serve como modelo:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+Quem clonar o projeto deve copiar o exemplo:
+
+```bash
+cp .env.example .env
+```
+
+Depois, deve ajustar a porta conforme o backend.
+
+> Variáveis utilizadas no frontend ficam disponíveis no código enviado ao navegador. Não coloque senhas, tokens privados ou credenciais de banco no `.env` do React.
+
+---
+
+## Como executar
+
+### Pré-requisitos
+
+Tenha instalado:
+
+- Node.js
+- npm
+- Git
+- Backend do TaskManager em execução
+
+Confira as versões:
+
+```bash
+node --version
+npm --version
+git --version
+```
+
+---
+
+### 1. Entrar na pasta do frontend
+
+Partindo da raiz do projeto:
+
+```bash
+cd frontend
+```
+
+---
+
+### 2. Instalar as dependências
+
+```bash
+npm install
+```
+
+---
+
+### 3. Criar o arquivo `.env`
+
+```bash
+cp .env.example .env
+```
+
+Confira o conteúdo:
+
+```bash
+cat .env
+```
+
+Exemplo:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+Caso o backend esteja na porta `5273`, altere para:
+
+```env
+REACT_APP_API_URL=http://localhost:5273
+```
+
+---
+
+### 4. Executar o frontend
+
+```bash
+npm start
+```
+
+A aplicação será disponibilizada em:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## Reiniciar após alterar o `.env`
+
+O React lê as variáveis de ambiente quando o servidor é iniciado.
+
+Depois de alterar o `.env`, pare a aplicação:
+
+```text
+Ctrl + C
+```
+
+Execute novamente:
+
+```bash
+npm start
+```
+
+Apenas atualizar a página do navegador não recarrega as variáveis.
+
+---
+
+## Comunicação com a API
+
+O frontend utiliza endpoints como:
+
+```text
+GET    /api/tarefas/listar
+GET    /api/tarefas/concluidas
+GET    /api/tarefas/naoconcluidas
+POST   /api/tarefas/cadastrar
+PUT    /api/tarefas/alterar/{id}
+GET    /api/categoria/listar
+POST   /api/categoria/cadastrar
+```
+
+Exemplo utilizando Fetch API:
+
+```ts
+fetch(`${API_URL}/api/tarefas/listar`)
+  .then((resposta) => resposta.json())
+  .then((tarefas) => {
+    setTarefas(tarefas);
+  });
+```
+
+Exemplo utilizando Axios:
+
+```ts
+axios
+  .get(`${API_URL}/api/categoria/listar`)
+  .then((resposta) => {
+    setCategorias(resposta.data);
+  });
+```
+
+---
+
+## Uso correto do `useEffect`
+
+As tarefas e categorias são carregadas quando o componente é iniciado:
+
+```tsx
+useEffect(() => {
+  carregarTarefas();
+}, []);
+```
+
+O array vazio evita que a requisição seja executada depois de toda renderização.
+
+Sem o array:
+
+```tsx
+useEffect(() => {
+  carregarTarefas();
+});
+```
+
+o componente pode criar um ciclo de requisições:
+
+```text
+Renderização
+    ↓
+Requisição
+    ↓
+Atualização do estado
+    ↓
+Nova renderização
+    ↓
+Nova requisição
+```
+
+---
+
+## Scripts disponíveis
+
+### Executar em desenvolvimento
+
+```bash
+npm start
+```
+
+### Criar uma versão de produção
+
+```bash
+npm run build
+```
+
+### Executar testes
+
+```bash
+npm test
+```
+
+> Os scripts disponíveis dependem da configuração atual do `package.json`.
+
+---
+
+## Como testar
+
+Com o backend e o frontend em execução:
+
+1. Abra `http://localhost:3000`.
+2. Verifique se as tarefas são carregadas.
+3. Acesse a página de cadastro.
+4. Cadastre uma categoria.
+5. Cadastre uma tarefa usando essa categoria.
+6. Retorne à página inicial.
+7. Altere o status da tarefa.
+8. Confira as páginas de tarefas concluídas e pendentes.
+9. Teste a aplicação em uma largura de celular.
+
+No navegador, abra o DevTools:
+
+```text
+F12
+```
+
+Ative o modo responsivo:
+
+```text
+Ctrl + Shift + M
+```
+
+Larguras recomendadas:
+
+```text
+375px
+414px
+768px
+1024px
+```
+
+---
+
+## Verificar requisições
+
+No DevTools:
+
+```text
+F12 → Network
+```
+
+Ao carregar uma página, deve haver uma ou poucas requisições para o endpoint correspondente.
+
+As chamadas não devem continuar sendo criadas sem parar.
+
+Para localizar URLs fixas no código, execute dentro de `frontend`:
+
+```bash
+grep -Rni "localhost" src
+```
+
+O ideal é que a URL esteja centralizada em:
+
+```text
+src/config/api.ts
+```

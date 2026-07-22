@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Categoria } from "../models/Categoria";
 import axios from "axios";
 import { Tarefa } from "../models/Tarefas";
+import API_URL from "../config/api";
 
 function CadastrarTarefa() {
   const [titulo, setTitulo] = useState("");
@@ -26,7 +27,7 @@ function CadastrarTarefa() {
 
   function carregarCategorias() {
     axios
-      .get<Categoria[]>("http://localhost:5000/api/categoria/listar")
+      .get<Categoria[]>(`${API_URL}/api/categoria/listar`)
       .then((resposta) => {
         setCategorias(resposta.data);
       })
@@ -43,7 +44,7 @@ function CadastrarTarefa() {
     };
 
     axios
-      .post("http://localhost:5000/api/categoria/cadastrar", categoria)
+      .post(`${API_URL}/api/categoria/cadastrar`, categoria)
       .then((resposta) => {
         exibirMensagem("Categoria cadastrada com sucesso!");
 
@@ -101,9 +102,7 @@ function CadastrarTarefa() {
     <main className="form-page">
       <section className="task-form-card">
         <header className="task-form-header">
-          <span className="task-form-eyebrow">
-            Gerenciamento de tarefas
-          </span>
+          <span className="task-form-eyebrow">Gerenciamento de tarefas</span>
 
           <h1>Cadastrar tarefa</h1>
 
@@ -201,18 +200,11 @@ function CadastrarTarefa() {
               </button>
             </header>
 
-            <p>
-              Crie uma categoria para organizar melhor suas tarefas.
-            </p>
+            <p>Crie uma categoria para organizar melhor suas tarefas.</p>
 
-            <form
-              className="category-form"
-              onSubmit={cadastrarCategoria}
-            >
+            <form className="category-form" onSubmit={cadastrarCategoria}>
               <div className="form-field">
-                <label htmlFor="categoriaNome">
-                  Nome da nova categoria
-                </label>
+                <label htmlFor="categoriaNome">Nome da nova categoria</label>
 
                 <input
                   id="categoriaNome"
@@ -235,9 +227,7 @@ function CadastrarTarefa() {
           <p
             role="status"
             className={`form-feedback ${
-              mensagemDeErro
-                ? "form-feedback-error"
-                : "form-feedback-success"
+              mensagemDeErro ? "form-feedback-error" : "form-feedback-success"
             }`}
           >
             {mensagem}

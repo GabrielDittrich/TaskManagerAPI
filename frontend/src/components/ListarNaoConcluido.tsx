@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tarefa } from "../models/Tarefas";
 import axios from "axios";
+import API_URL from "../config/api";
 
 function ListarTarefa() {
   const [tarefas, setTarefas] = useState<Tarefa[]>([]);
@@ -10,15 +11,13 @@ function ListarTarefa() {
   }, []);
 
   function alterar(id: string) {
-    axios
-      .put(`http://localhost:5000/api/tarefas/alterar/${id}`)
-      .then((resposta) => {
-        setTarefas(resposta.data);
-      });
+    axios.put(`${API_URL}/api/tarefas/alterar/${id}`).then((resposta) => {
+      setTarefas(resposta.data);
+    });
   }
 
   function carregarTarefas() {
-    fetch("http://localhost:5000/api/tarefas/listar")
+    fetch(`${API_URL}/api/tarefas/listar`)
       .then((resposta) => {
         return resposta.json();
       })

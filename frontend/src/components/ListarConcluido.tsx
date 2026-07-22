@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tarefa } from "../models/Tarefas";
+import API_URL from "../config/api";
 
 function ListarConcluido() {
   const [tarefas, setTarefas] = useState<Tarefa[]>([]);
@@ -9,7 +10,7 @@ function ListarConcluido() {
   }, []);
 
   function carregarTarefas() {
-    fetch("http://localhost:5000/api/tarefas/concluidas")
+    fetch(`${API_URL}/api/tarefas/concluidas`)
       .then((resposta) => {
         return resposta.json();
       })

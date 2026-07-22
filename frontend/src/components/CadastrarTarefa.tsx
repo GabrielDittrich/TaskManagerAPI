@@ -2,31 +2,39 @@ import { useEffect, useState } from "react";
 import { Categoria } from "../models/Categoria";
 import axios from "axios";
 import { Tarefa } from "../models/Tarefas";
-import { useNavigate } from "react-router-dom";
 
 function CadastrarTarefa() {
-  const navigate = useNavigate();
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoriaId, setCategoriaId] = useState("");
   const [categorias, setCategorias] = useState<Categoria[]>([]);
-  const [mensagem, setMensagem] = useState<string | null>(null); // Estado para a mensagem
-  const [categoriaNome, setCategoriaNome] = useState(""); // Para nova categoria
-  const [isNewCategoria, setIsNewCategoria] = useState(false); // Controle se é nova categoria
+  const [mensagem, setMensagem] = useState<string | null>(null);
+  const [categoriaNome, setCategoriaNome] = useState("");
+  const [isNewCategoria, setIsNewCategoria] = useState(false);
 
   useEffect(() => {
     carregarCategorias();
   }, []);
+
+  function exibirMensagem(texto: string) {
+    setMensagem(texto);
+
+    setTimeout(() => {
+      setMensagem(null);
+    }, 3000);
+  }
 
   function carregarCategorias() {
     axios
       .get<Categoria[]>("http://localhost:5000/api/categoria/listar")
       .then((resposta) => {
         setCategorias(resposta.data);
+      })
+      .catch(() => {
+        exibirMensagem("Erro ao carregar as categorias.");
       });
   }
 
-  // Cadastra uma nova categoria
   function cadastrarCategoria(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -37,15 +45,16 @@ function CadastrarTarefa() {
     axios
       .post("http://localhost:5000/api/categoria/cadastrar", categoria)
       .then((resposta) => {
-        setMensagem("Categoria cadastrada com sucesso!");
-        setTimeout(() => setMensagem(null), 3000);
-        setCategoriaId(resposta.data.categoriaId); // Atualiza o ID da nova categoria
-        carregarCategorias(); // Atualiza a lista de categorias
-        setIsNewCategoria(false); // Reseta o estado de nova categoria
+        exibirMensagem("Categoria cadastrada com sucesso!");
+
+        setCategoriaId(String(resposta.data.categoriaId));
+        setCategoriaNome("");
+        setIsNewCategoria(false);
+
+        carregarCategorias();
       })
       .catch(() => {
-        setMensagem("Erro ao cadastrar categoria.");
-        setTimeout(() => setMensagem(null), 3000);
+        exibirMensagem("Erro ao cadastrar categoria.");
       });
   }
 
@@ -53,9 +62,9 @@ function CadastrarTarefa() {
     e.preventDefault();
 
     const tarefa: Tarefa = {
-      titulo: titulo,
-      descricao: descricao,
-      categoriaId: categoriaId,
+      titulo,
+      descricao,
+      categoriaId,
     };
 
     fetch("http://localhost:5000/api/tarefas/cadastrar", {
@@ -65,94 +74,177 @@ function CadastrarTarefa() {
       },
       body: JSON.stringify(tarefa),
     })
-      .then((resposta) => resposta.json())
-      .then((tarefa: Tarefa) => {
-        console.log("Tarefa cadastrada:", tarefa);
-        setMensagem("Tarefa cadastrada com sucesso!"); // Define a mensagem
-        setTimeout(() => setMensagem(null), 3000); // Remove a mensagem após 3 segundos
+      .then((resposta) => {
+        if (!resposta.ok) {
+          throw new Error("Erro ao cadastrar tarefa");
+        }
+
+        return resposta.json();
+      })
+      .then((tarefaCadastrada: Tarefa) => {
+        console.log("Tarefa cadastrada:", tarefaCadastrada);
+
+        exibirMensagem("Tarefa cadastrada com sucesso!");
+
+        setTitulo("");
+        setDescricao("");
+        setCategoriaId("");
       })
       .catch(() => {
-        setMensagem("Erro ao cadastrar a tarefa.");
-        setTimeout(() => setMensagem(null), 3000); // Remove a mensagem após 3 segundos
+        exibirMensagem("Erro ao cadastrar a tarefa.");
       });
   }
 
+  const mensagemDeErro = mensagem?.startsWith("Erro");
+
   return (
-    <div>
-      <h1>Cadastrar Tarefa</h1>
-      <form onSubmit={cadastrarTarefa}>
-        <div>
-          <label>Título:</label>
-          <input
-            type="text"
-            placeholder="Título"
-            required
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setTitulo(e.target.value)
-            }
-          />
+    <main className="form-page">
+      <section className="task-form-card">
+        <header className="task-form-header">
+          <span className="task-form-eyebrow">
+            Gerenciamento de tarefas
+          </span>
+
+          <h1>Cadastrar tarefa</h1>
+
+          <p>
+            Preencha os campos abaixo para adicionar uma nova tarefa ao
+            TaskManager.
+          </p>
+        </header>
+
+        <form className="task-form" onSubmit={cadastrarTarefa}>
+          <div className="form-field">
+            <label htmlFor="titulo">Título</label>
+
+            <input
+              id="titulo"
+              type="text"
+              placeholder="Ex.: Finalizar documentação da API"
+              required
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="descricao">Descrição</label>
+
+            <textarea
+              id="descricao"
+              placeholder="Descreva o que precisa ser realizado"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              rows={4}
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="categoria">Categoria</label>
+
+            <select
+              id="categoria"
+              required
+              value={categoriaId}
+              onChange={(e) => setCategoriaId(e.target.value)}
+            >
+              <option value="">Selecione uma categoria</option>
+
+              {categorias.map((categoria) => (
+                <option
+                  value={categoria.categoriaId}
+                  key={categoria.categoriaId}
+                >
+                  {categoria.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button type="submit" className="task-submit-button">
+            Cadastrar tarefa
+          </button>
+        </form>
+
+        <div className="category-divider">
+          <span>ou</span>
         </div>
 
-        <div>
-          <label htmlFor="descricao">Descrição:</label>
-          <input
-            type="text"
-            placeholder="Descrição"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setDescricao(e.target.value)
-            }
-          />
-        </div>
-
-        <div>
-          <label>Categorias:</label>
-          <select
-            onChange={(e) => setCategoriaId(e.target.value)}
-            value={categoriaId}
-          >
-            <option value="">Selecione uma categoria</option>
-            {categorias.map((categoria) => (
-              <option value={categoria.categoriaId} key={categoria.categoriaId}>
-                {categoria.nome}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button type="submit">Cadastrar Tarefa</button>
-
-        {/* Mensagem de feedback abaixo do botão */}
-        {mensagem && (
-          <p style={{ color: "green", marginTop: "10px" }}>{mensagem}</p>
-        )}
-      </form>
-
-      {/* Exibir formulário para cadastrar nova categoria */}
-      <div>
         {!isNewCategoria && (
-          <button type="button" onClick={() => setIsNewCategoria(true)}>
-            Criar Nova Categoria
+          <button
+            type="button"
+            className="category-toggle-button"
+            onClick={() => setIsNewCategoria(true)}
+          >
+            + Criar nova categoria
           </button>
         )}
 
         {isNewCategoria && (
-          <form onSubmit={cadastrarCategoria}>
-            <div>
-              <h2>Cadastrar Nova Categoria</h2>
-              <label>Nome da Nova Categoria:</label>
-              <input
-                type="text"
-                placeholder="Nome da categoria"
-                required
-                value={categoriaNome}
-                onChange={(e) => setCategoriaNome(e.target.value)}
-              />
-              <button type="submit">Cadastrar Nova Categoria</button>
-            </div>
-          </form>
+          <section className="category-form-panel">
+            <header className="category-form-header">
+              <div>
+                <span>Nova categoria</span>
+                <h2>Cadastrar categoria</h2>
+              </div>
+
+              <button
+                type="button"
+                className="category-close-button"
+                aria-label="Fechar cadastro de categoria"
+                onClick={() => {
+                  setIsNewCategoria(false);
+                  setCategoriaNome("");
+                }}
+              >
+                ×
+              </button>
+            </header>
+
+            <p>
+              Crie uma categoria para organizar melhor suas tarefas.
+            </p>
+
+            <form
+              className="category-form"
+              onSubmit={cadastrarCategoria}
+            >
+              <div className="form-field">
+                <label htmlFor="categoriaNome">
+                  Nome da nova categoria
+                </label>
+
+                <input
+                  id="categoriaNome"
+                  type="text"
+                  placeholder="Ex.: Estudos"
+                  required
+                  value={categoriaNome}
+                  onChange={(e) => setCategoriaNome(e.target.value)}
+                />
+              </div>
+
+              <button type="submit" className="task-submit-button">
+                Cadastrar categoria
+              </button>
+            </form>
+          </section>
         )}
-      </div>
-    </div>
+
+        {mensagem && (
+          <p
+            role="status"
+            className={`form-feedback ${
+              mensagemDeErro
+                ? "form-feedback-error"
+                : "form-feedback-success"
+            }`}
+          >
+            {mensagem}
+          </p>
+        )}
+      </section>
+    </main>
   );
 }
 
